@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app_facturador:
+    container_name: facturador
+    build:
+      context: .
+    volumes:
+      - ./facturador:/app
+      - ./facturador/cache:/cache
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # mariadb_facturador:
+  #   container_name: mariadb_facturador
+  #   image: mariadb:11.2.4
+  #   environment:
+  #     - MARIADB_ROOT_PASSWORD
+  #     - MARIADB_DATABASE
+  #     - MARIADB_USER
+  #     - MARIADB_PASSWORD
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - mariadb_data:/var/lib/mariadb
+
+volumes:
+  mariadb_data:
