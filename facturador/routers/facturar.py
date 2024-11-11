@@ -1,5 +1,6 @@
 from fastapi import HTTPException, File, UploadFile, APIRouter, Form
 import schemas.schemas as schemas
+import crud
 from tools.pyAfipWs_wrapper import (PyAfipWsWrapper, MODE_HOMOLOGACION, 
     INVOICE_CONCEPT_PRODUCTOS, INVOICE_CONCEPT_SERVICIOS, INVOICE_CONCEPT_PRODUCTOS_SERVICIOS)
 import base64
@@ -27,6 +28,8 @@ async def facturar(
 
     pyafip = PyAfipWsWrapper(MODE_HOMOLOGACION)
     token = pyafip.authenticate(pyafipws_certificate, pyafipws_private_key, data.cuit)
+    if token:
+        crud.add_token(token)
 
     if data.invoice_concept == 'PRODUCTOS':
         invoice_concept = INVOICE_CONCEPT_PRODUCTOS

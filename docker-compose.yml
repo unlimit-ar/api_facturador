@@ -14,6 +14,15 @@ services:
       - DATABASE_URL
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
+  facturador_redis:
+    container_name: facturador_redis
+    build: 
+      context: .
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./facturador/cache:/cache
+
   # mariadb_facturador:
   #   container_name: mariadb_facturador
   #   image: mariadb:11.2.4
